@@ -1,20 +1,53 @@
 version: '3.9'
-name: 'microserv'
 
+networks:
+  deep-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.0.0/16
+          ip_range: 10.0.0.0/24
+          gateway: 10.0.0.254
+    internal: true
+  middle-network:
+    internal: true
+  front-network:
+  
 services:
   mssql:
       container_name: mssql-db
       hostname: mssql-db
-      image: mcr.microsoft.com/mssql/server:2022-latest
-      environment:
-        ACCEPT_EULA: 'Y'
-        MSSQL_SA_PASSWORD: 'Test1234='
-        MSSQL_DATA_DIR: /var/opt/mssql/data
-        MSSQL_PID: 'Developer' 
-        MSSQL_TCP_PORT: 1433 
+      build:
+        context: .
+        dockerfile: MsSql/Dockerfile          
       ports: 
         - "1433:1433"
       volumes:
         - ./data:/var/opt/mssql/data
         - ./log:/var/opt/mssql/log
         - ./secrets:/var/opt/mssql/secrets
+      networks:
+        deep-network:
+          ipv4_address: 10.0.0.2    
+        front-network:
+  microserv.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - MSSQL_IP=$(docker inspect --format '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mssql)
+    ports:
+      - "8080:8080"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    image: ${DOCKER_REGISTRY-}microservapi
+    networks:
+      - deep-network
+      - middle-network
+      - front-network
+    build:
+      context: .
+      dockerfile: MicroServ.Api/Dockerfile
+      args:
+        - MSSQL_IP=10.0.0.2
+  
