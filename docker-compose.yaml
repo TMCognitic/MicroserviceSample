@@ -23,10 +23,10 @@ services:
       ports: 
         - "1433:1433"
       volumes:
-        - ./backups:/backups
-        - ./data:/var/opt/mssql/data
-        - ./log:/var/opt/mssql/log
-        - ./secrets:/var/opt/mssql/secrets
+        - ./MsSqlConfig/backups:/backups
+        - ./MsSqlConfig/data:/var/opt/mssql/data
+        - ./MsSqlConfig/log:/var/opt/mssql/log
+        - ./MsSqlConfig/secrets:/var/opt/mssql/secrets
       networks:
         deep-network:
           ipv4_address: 10.0.0.2    

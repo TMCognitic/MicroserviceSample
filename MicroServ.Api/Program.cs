@@ -1,4 +1,6 @@
 using System.Data.Common;
+using MicroServ.Api.Models.Repositories;
+using MicroServ.Api.Models.Services;
 using Microsoft.Data.SqlClient;
 
 namespace MicroServ.Api;
@@ -24,6 +26,7 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.Services.AddTransient<DbConnection>(sp => new SqlConnection(args[0]));
+        builder.Services.AddScoped<ITodoRepository, ITodoService>();
 
         var app = builder.Build();
 
