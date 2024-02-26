@@ -22,5 +22,5 @@ FROM base AS final
 ARG MSSQL_IP
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENV ConnectionString="Data Source=$MSSQL_IP,1433;Initial Catalog=master;User Id=sa;Password=Test1234=;Connect Timeout=60;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"
+ENV ConnectionString="Data Source=$MSSQL_IP,1433;Initial Catalog=DEMO;User Id=Thierry;Password=Test1234=;Connect Timeout=60;Encrypt=True;Trust Server Certificate=True;Application Intent=ReadWrite;Multi Subnet Failover=False"
 ENTRYPOINT dotnet MicroServ.Api.dll "$ConnectionString"

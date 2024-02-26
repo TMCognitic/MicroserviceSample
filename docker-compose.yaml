@@ -23,6 +23,7 @@ services:
       ports: 
         - "1433:1433"
       volumes:
+        - ./backups:/backups
         - ./data:/var/opt/mssql/data
         - ./log:/var/opt/mssql/log
         - ./secrets:/var/opt/mssql/secrets
@@ -32,9 +33,9 @@ services:
         front-network:
   microserv.api:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=8080
-      - MSSQL_IP=$(docker inspect --format '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mssql)
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HTTP_PORTS: 8080
+      MSSQL_IP: 10.0.0.2
     ports:
       - "8080:8080"
     volumes:

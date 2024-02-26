@@ -5,6 +5,7 @@
 data/
 log/
 secrets/
+backups/
 
 # dotenv files
 .env
