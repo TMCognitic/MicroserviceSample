@@ -8,7 +8,7 @@ using Tools.Cqs.Queries;
 namespace MicroServ.Api.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class TodoController(ILogger<TodoController> _logger, ITodoRepository _repository) : ControllerBase
 {
     [HttpGet]
