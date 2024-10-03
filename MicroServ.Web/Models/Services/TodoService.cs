@@ -2,7 +2,7 @@
 using MicroServ.Web.Models.Queries;
 using MicroServ.Web.Models.Repositories;
 using System.Text.Json;
-using Tools.Cqs.Queries;
+using BStorm.Tools.CommandQuerySeparation.Queries;
 
 namespace MicroServ.Web.Models.Services
 {
@@ -19,7 +19,7 @@ namespace MicroServ.Web.Models.Services
                 if(!httpResponseMessage.IsSuccessStatusCode)
                 {
                     string json = JsonSerializer.Serialize(httpResponseMessage, new JsonSerializerOptions() { WriteIndented = true});
-                    return IQueryResult<IEnumerable<Todo>>.Failure(json);
+                    return IQueryResult<IEnumerable<Todo>>.Failure(json, null);
                 }
 
                 string content = httpResponseMessage.Content.ReadAsStringAsync().Result;
@@ -28,7 +28,7 @@ namespace MicroServ.Web.Models.Services
             }
             catch (Exception ex)
             {
-                return IQueryResult<IEnumerable<Todo>>.Failure(ex.Message);
+                return IQueryResult<IEnumerable<Todo>>.Failure(ex.Message, ex);
             }
         }
     }

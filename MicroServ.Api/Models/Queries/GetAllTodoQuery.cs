@@ -1,5 +1,5 @@
 using MicroServ.Api.Models.Entities;
-using Tools.Cqs.Queries;
+using BStorm.Tools.CommandQuerySeparation.Queries;
 
 namespace MicroServ.Api.Models.Queries;
 

@@ -3,7 +3,7 @@ using MicroServ.Api.Models.Queries;
 using MicroServ.Api.Models.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.Common;
-using Tools.Cqs.Queries;
+using BStorm.Tools.CommandQuerySeparation.Queries;
 
 namespace MicroServ.Api.Controllers;
 
@@ -21,6 +21,6 @@ public class TodoController(ILogger<TodoController> _logger, ITodoRepository _re
         if(result.IsFailure)
             return BadRequest(new { result.ErrorMessage });
 
-        return Ok(result.Value);
+        return Ok(result.Result);
     }
 }

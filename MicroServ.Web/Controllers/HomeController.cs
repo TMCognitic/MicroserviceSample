@@ -4,7 +4,7 @@ using MicroServ.Web.Models;
 using MicroServ.Web.Models.Repositories;
 using MicroServ.Web.Models.Queries;
 using MicroServ.Web.Models.Entities;
-using Tools.Cqs.Queries;
+using BStorm.Tools.CommandQuerySeparation.Queries;
 
 namespace MicroServ.Web.Controllers;
 
@@ -17,7 +17,7 @@ public class HomeController(ILogger<HomeController> _logger, ITodoRepository _re
         if (result.IsFailure)
             return BadRequest(new { result.ErrorMessage });
 
-        IEnumerable<Todo> items = result.Value!;
+        IEnumerable<Todo> items = result.Result!;
         return View(items);
     }
 
