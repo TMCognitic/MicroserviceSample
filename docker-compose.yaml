@@ -8,7 +8,9 @@ networks:
         - subnet: 10.0.0.0/16
           ip_range: 10.0.0.0/24
           gateway: 10.0.0.254
+    internal: true
   middle-network:
+    internal: true
   front-network:  
 services:
   mssql:
